@@ -62,30 +62,67 @@ dealercards << deck.pop
 dealertotal = calculate_total(dealercards)
 mytotal = calculate_total(mycards)
 
-puts "mycards is: " + mycards.to_s
-puts
-puts "dealercards is: " + dealercards.to_s
-
 # Show cards
 puts " You have #{mycards[0]} and #{mycards[1]}, for a total of #{mytotal}"
-puts "The Dealer has #{dealercards[0]} and #{dealercards[1]}, for a total of #{dealertotal}"
 puts ""
 
 # Player turn
 
 
+
 while mytotal < 21
   puts "What would you like to do? 1) hit 2) stay"
   choice1 = gets.chomp
-  if choice1 = 1.to_s
+  if choice1 == 1.to_s
     mycards << deck.pop
     mytotal = calculate_total(mycards)
     puts " You have #{mycards}, for a total of #{mytotal}"
       if mytotal > 21
-        puts "You bust."
-      elsif mytotal == 21
-        puts "21 Blackjack"
+        puts "You bust. Dealer wins"
+      exit
       end
+  elsif choice1 = 2.to_s
+    break
+  end
+end
+
+if mytotal == 21
+  puts " 21 Blackjack. You win."
+  exit
+end
+
+  puts "The dealer shows #{dealercards} for a total of #{dealertotal}"
+
+if dealertotal == 21
+  puts "Dealer has 21 Blackjack. You lose."
+  exit
+end
+
+while dealertotal < 17
+
+  puts "The dealer hits"
+  dealercards << deck.pop
+  dealertotal = calculate_total(dealercards)
+  puts "The dealer has #{dealercards} for a total of #{dealertotal}"
+    if dealertotal > 21
+      puts "Dealer Busts. You win"
+    end
+end
+
+# Compare hands
+
+if dealertotal > 17 && dealertotal < 21
+  puts "The dealer has #{dealercards} for a total of #{dealertotal}"
+  puts "The Dealer stays."
+end
+
+if mytotal < 21 && dealertotal <= 21
+  if mytotal < dealertotal
+    puts "Dealer Wins"
+  elsif mytotal > dealertotal
+    puts "You win"
+  else 
+    puts "Tie Game"
   end
 end
 
